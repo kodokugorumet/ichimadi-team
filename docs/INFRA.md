@@ -150,9 +150,11 @@ gh secret set DEPLOY_KNOWN_HOSTS -R OurVacation/ichimadi < 받은_known_hosts_�
 | `APP_ENV` | `prod` | prod에서는 기본 개발용 `JWT_SECRET` 으로 시작하면 거부됩니다. |
 | `JWT_SECRET` | 무작위 긴 값 | 로그인 토큰 서명 키. 바꾸면 기존 로그인이 모두 풀립니다. |
 | `CORS_ORIGINS` | `["https://34-47-91-94.sslip.io"]` | 같은 주소라 사실상 필요 없지만 명시해 둡니다. |
-| `GEMINI_API_KEY` | (비어 있음) | 비어 있으면 이름 추천이 503 `name_suggest_unavailable` 을 돌려주고, FE는 임시 이름 생성기로 대신합니다. |
-| `GEMINI_MODEL` | (없음) | 지정하지 않으면 `config.py` 의 기본값을 씁니다. |
+| `GEMINI_API_KEY` | 설정됨 (서버에만) | 이름 추천용 키. 비어 있거나 Gemini가 응답하지 않으면 이름 추천이 503 `name_suggest_unavailable` 을 돌려주고, FE는 임시 이름 생성기로 대신합니다. |
+| `GEMINI_MODEL` | `gemini-3.6-flash` | 팀 기본값 `gemini-3.8-flash` 는 무료 등급 키로 호출하면 503·시간 초과만 나서(2026-11-27 확인), 응답하는 가장 가까운 flash 모델로 지정했습니다. |
 | `IMAGE_PREFIX` | `ghcr.io/ourvacation` | 서버에서 직접 `docker compose` 를 실행할 때 쓸 이미지 위치. CD는 자기 값을 넘깁니다. |
+
+> 키 출처: 현우 개인 계정 무료 등급, 무료 등급은 분당/일일 호출 제한이 있고 입력이 학습에 쓰일 수 있음
 
 `DATABASE_URL` 은 `.env` 에 적지 않습니다. `compose.prod.yml` 이 `POSTGRES_*` 값으로 만들어서 api에 넘깁니다.
 
